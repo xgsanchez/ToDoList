@@ -66,8 +66,7 @@ public class ToDoListApplication  implements CommandLineRunner {
 		taskService.deleteTaskById(3L);
 
 
-//		Task tt = taskService.getTaskById(2L);
-//		System.out.println(tt);
+
 
 		List<Task> portletTasks1 = taskService.getAllTask();
 		portletTasks1.forEach(task -> System.out.println(task.toString()));
