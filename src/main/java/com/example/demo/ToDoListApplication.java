@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class ToDoListApplication  implements CommandLineRunner {
@@ -29,46 +30,67 @@ public class ToDoListApplication  implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Task task1 = new Task("carro", "de tipo transporte", LocalTime.now());
-		Task task2 = new Task("cozinha", "de tipo comida", LocalTime.now());
-		Task task3 = new Task("lavar", "de tipo lavar", LocalTime.now());
-		Task task4 = new Task("estudar", "de tipo estudar", LocalTime.now());
+		Scanner scanner = new Scanner(System.in);
+		String answer;
+		final String si = "si";
 
-		System.out.println("*****Guardando Tasks *****");
-//		taskService.saveTask(task1);
-		System.out.println(task1.getName() + " guardado con exito!");
+		System.out.println("\n*****Bienvenido al sistema de tareas*****");
 
-		List<Task> tasks = new ArrayList<>();
-		tasks.add(task2);
-		tasks.add(task3);
-		tasks.add(task4);
-		System.out.println("*****Guardando Tasks *****");
-
-//		Metodo por referencia
-//		tasks.forEach(taskService::saveTask);
-//		for (int i = 0; i < tasks.size(); i++) {
-//			taskService.saveTask(tasks.get(i));
-//		}
-
-//		for (Task tas : tasks){
-//			taskService.saveTask(tas);
-//			System.out.println(tas.getName() + " guardado con exito!");
-//		}
-
-		System.out.println("*****Da Tasks *****");
-
-		List<Task> portletTasks = taskService.getAllTask();
-		portletTasks.forEach(task -> System.out.println(task.toString()));
-
-
-		System.out.println("*****Borrando Tasks *****");
-
-		taskService.deleteTaskById(3L);
+		System.out.println("\nPrecione enter para ver el menu de opciones");
+		scanner.nextLine();
 
 
 
 
-		List<Task> portletTasks1 = taskService.getAllTask();
-		portletTasks1.forEach(task -> System.out.println(task.toString()));
+		 do {
+			 System.out.println("Menu de opciones:" +
+					 "\n\t1- Vizualizar todas las tareas." +
+					 "\n\t2- Crear una nueva tarea." +
+					 "\n\t3- Elimar una tarea." +
+					 "\n\t4- Retribuir una tarea." +
+					 "\n\t5- Salir del programa.");
+
+			 System.out.println("Que desea realizar");
+
+			 int eleccion = scanner.nextInt();
+			 scanner.nextLine();
+
+			 switch (eleccion){
+				 case 1:
+					 System.out.println("***** listado de tareas *****\n");
+					 taskService.getAllTask().forEach(tarea -> System.out.println(tarea.toString())); break;
+
+				 case 2:
+					 System.out.println("Nombre de la tarea:");
+					 String name = scanner.nextLine();
+					 System.out.println("Descripcion de la tarea:");
+					 String description = scanner.nextLine();
+
+					 Task tarea = new Task(name, description, LocalTime.now());
+					 taskService.saveTask(tarea);
+					 System.out.println("tarea guardada con exito.");break;
+
+				 case 3: System.out.println("digite el Id de la tarea que desea eliminar");
+					 taskService.deleteTaskById(scanner.nextLong());
+					 System.out.println("Tarea eliminada con exito"); break;
+
+				 case 4:
+					 System.out.println("Digite el id de la tarea que desea ver");
+					 Task tareaEliminada = taskService.getTaskById(scanner.nextLong());
+					 System.out.println(tareaEliminada.toString());break;
+
+				 case 5: System.exit(0);break;
+
+			 }
+
+			 System.out.println("escriba 'si' si desea realizar otra operacion");
+
+			 answer = scanner.nextLine();
+
+		 } while (answer.equals(si));
+
+		scanner.close();
+
+
 	}
 }
