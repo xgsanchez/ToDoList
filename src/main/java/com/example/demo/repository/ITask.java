@@ -12,4 +12,6 @@ public interface ITask {
     void deleteTaskById(Long id);
     Task getTaskById(Long id);
     List<Task> getAllTask();
+    List<Task> getTaskNotComplete();
+
 }

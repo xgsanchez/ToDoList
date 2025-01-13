@@ -48,7 +48,8 @@ public class ToDoListApplication  implements CommandLineRunner {
 					 "\n\t2- Crear una nueva tarea." +
 					 "\n\t3- Elimar una tarea." +
 					 "\n\t4- Retribuir una tarea." +
-					 "\n\t5- Salir del programa.");
+					 "\n\t5- Ver tarea pendiente." +
+					 "\n\t6- Salir del programa.");
 
 			 System.out.println("Que desea realizar");
 
@@ -58,7 +59,7 @@ public class ToDoListApplication  implements CommandLineRunner {
 			 switch (eleccion){
 				 case 1:
 					 System.out.println("***** listado de tareas *****\n");
-					 taskService.getAllTask().forEach(tarea -> System.out.println(tarea.toString())); break;
+					 taskService.getAllTask().forEach(task -> System.out.println(task.toString())); break;
 
 				 case 2:
 					 System.out.println("Nombre de la tarea:");
@@ -66,7 +67,7 @@ public class ToDoListApplication  implements CommandLineRunner {
 					 System.out.println("Descripcion de la tarea:");
 					 String description = scanner.nextLine();
 
-					 Task tarea = new Task(name, description, LocalTime.now());
+					 Task tarea = new Task(name, description, LocalTime.now(), false);
 					 taskService.saveTask(tarea);
 					 System.out.println("tarea guardada con exito.");break;
 
@@ -79,7 +80,12 @@ public class ToDoListApplication  implements CommandLineRunner {
 					 Task tareaEliminada = taskService.getTaskById(scanner.nextLong());
 					 System.out.println(tareaEliminada.toString());break;
 
-				 case 5: System.exit(0);break;
+				 case 5:
+					 System.out.println("Tareas pendientes");
+					 taskService.getTaskNotComplete().forEach(task -> System.out.println(task.toString()));break;
+
+
+				 case 6: System.exit(0);break;
 
 			 }
 

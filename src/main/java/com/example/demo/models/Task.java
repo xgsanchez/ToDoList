@@ -18,11 +18,14 @@ public class Task {
     private String name;
     private String description;
     private LocalTime date;
+    private Boolean completado;
 
-    public Task(String name, String description, LocalTime date ) {
+
+    public Task(String name, String description, LocalTime date, Boolean completado) {
         this.name = name;
         this.description = description;
         this.date = date;
+        this.completado = completado;
     }
 
     public Task() {
@@ -62,6 +65,14 @@ public class Task {
         this.date = date;
     }
 
+    public boolean isCompletado() {
+        return completado;
+    }
+
+    public void setCompletado(boolean completado) {
+        this.completado = completado;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -69,6 +80,7 @@ public class Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +
+                ", completado=" + completado +
                 '}';
     }
 }

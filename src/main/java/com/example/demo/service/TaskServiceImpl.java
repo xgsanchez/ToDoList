@@ -45,5 +45,12 @@ public class TaskServiceImpl implements ITask {
         return entityManager.createQuery(query, Task.class).getResultList();
     }
 
+    @Override
+    @Transactional
+    public List<Task> getTaskNotComplete() {
+        String query = "select t from Task t where t.completado = :completado";
+        return entityManager.createQuery(query, Task.class).setParameter("completado", Boolean.FALSE).getResultList();
+    }
+
 
 }
