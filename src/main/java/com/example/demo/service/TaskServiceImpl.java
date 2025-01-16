@@ -4,7 +4,9 @@ import com.example.demo.models.Task;
 import com.example.demo.repository.ITask;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +26,16 @@ public class TaskServiceImpl implements ITask {
     @Override
     @Transactional
     public void deleteTaskById(Long id) {
-//        Task task = getTaskById(id);
-//        entityManager.remove(task);
-
         String query = "delete from Task t where t.id = :id";
         entityManager.createQuery(query).setParameter("id", id).executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public void updateTask(Long id) {
+        Query query = entityManager.createQuery("update Task t set t.completado = :completado where t.id =:id  ");
+        query.setParameter("completado", Boolean.TRUE).setParameter("id", id).executeUpdate();
     }
 
     @Override
